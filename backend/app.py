@@ -1,7 +1,21 @@
 # This folder would be the main entry point of the application
 from flask import Flask
 
+#import os to get the enviroment variable
+import os
+from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
+
+# Load environment variables from the .env file
+load_dotenv()
+
 app = Flask(__name__)
+
+# Set up configuration using environment variables
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 @app.route("/")
 def home() :
