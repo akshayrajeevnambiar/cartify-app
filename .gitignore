@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Flask instance and settings
+instance/
+*.pyc
+*.pyo
+*.pyd
+
+# Database files (if using SQLite for development)
+*.db
+*.sqlite3
+
+# Environment variables and secrets
+.env
+.env.*
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# PyCharm-specific
+__pycache__/
+.idea/
+*.iml
+
+# JetBrains IDEs
+*.idea
+*.iml
+*.iws
+
+# Mac-specific
+.DS_Store
+
+# Log files
+*.log
+
+# Docker
+docker-compose.yml
+Dockerfile
+*.env
+
+# Coverage reports from testing
+htmlcov/
+.coverage
+*.cover
+*.py,cover
+
+# pytest cache directory
+.pytest_cache/
