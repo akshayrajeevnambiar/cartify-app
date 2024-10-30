@@ -14,9 +14,27 @@ def create_product():
     db.session.commit()
     return jsonify(new_product.to_dict()), 201
 
+
 def get_all_products():
-    products = Product.query.all()
-    return jsonify([product.to_dict() for product in products])
+
+    # Retrieve pagination parameters from request arguments
+    page = request.args.get('page', type=int)
+
+    # setting the amount of data to be showed per page
+    per_page = request.args.get('per_page', 10, type=int)
+
+    # Query with pagination
+    products = Product.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    # structuring the response
+    response = {
+        "total": products.total,
+        "pages": products.pages,
+        "current_page": products.page,
+        "products": [product.to_dict() for product in products.items]
+    }
+
+    return jsonify(response)
 
 def get_product(product_id):
     product = Product.query.get_or_404(product_id)
