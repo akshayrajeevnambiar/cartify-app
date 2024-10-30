@@ -1,7 +1,9 @@
 from flask import request, jsonify
 from .models import Product
 from src import db
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
+@jwt_required()
 def create_product():
     data = request.get_json()
     new_product = Product(
@@ -14,7 +16,7 @@ def create_product():
     db.session.commit()
     return jsonify(new_product.to_dict()), 201
 
-
+@jwt_required()
 def get_all_products():
 
     # Retrieve pagination parameters from request arguments
@@ -36,10 +38,12 @@ def get_all_products():
 
     return jsonify(response)
 
+@jwt_required()
 def get_product(product_id):
     product = Product.query.get_or_404(product_id)
     return jsonify(product.to_dict())
 
+@jwt_required()
 def update_product(product_id):
     product = Product.query.get_or_404(product_id)
     data = request.get_json()
@@ -50,6 +54,7 @@ def update_product(product_id):
     db.session.commit()
     return jsonify(product.to_dict())
 
+@jwt_required()
 def delete_product(product_id):
     product = Product.query.get_or_404(product_id)
     db.session.delete(product)

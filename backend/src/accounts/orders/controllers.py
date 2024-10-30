@@ -2,7 +2,9 @@ from flask import request, jsonify
 from .models import Order
 from ..products.models import Product
 from src import db
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
+@jwt_required()
 def create_order():
     data = request.get_json()
 
@@ -23,14 +25,19 @@ def create_order():
 
     return jsonify(new_order.to_dict())
 
-def get_all_orders():
-    orders = Order.query.all()
+@jwt_required()
+def get_user_orders():
+    user_id = get_jwt_identity()
+    print(user_id)
+    orders = Order.query.filter_by(user_id=user_id).all()
     return jsonify([order.to_dict() for order in orders])
 
+@jwt_required()
 def get_order(order_id):
     order = Order.query.get_or_404(order_id)
     return jsonify(order.to_dict())
 
+@jwt_required()
 def update_order_status(order_id):
     order = Order.query.get_or_404(order_id)
     data = request.get_json()
@@ -38,6 +45,7 @@ def update_order_status(order_id):
     db.session.commit()
     return jsonify(order.to_dict())
 
+@jwt_required()
 def delete_order(order_id):
     order = Order.query.get_or_404(order_id)
     db.session.delete(order)
