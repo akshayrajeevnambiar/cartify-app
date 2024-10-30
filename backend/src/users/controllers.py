@@ -2,7 +2,7 @@ from flask import request, jsonify
 from src import db
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity
 
 # Creating a new User
 def register_user():
@@ -57,3 +57,9 @@ def login_user():
     # Create JWT token
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 200
+
+def adim_route() :
+    current_user = User.query.get(get_jwt_identity())
+    if current_user.role != 'admin':
+        return jsonify({"error": "Access forbidden"}), 403
+    # Do admin stuff here
