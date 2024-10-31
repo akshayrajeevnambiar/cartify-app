@@ -9,6 +9,9 @@ app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(products_bp, url_prefix="/products")
 app.register_blueprint(orders_bp, url_prefix="/orders")
 
+@app.route('/')
+def home():
+    return "Hello, Cartify backend is live!"
 
 if __name__ == "__main__":
     app.run()
